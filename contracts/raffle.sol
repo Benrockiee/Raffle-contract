@@ -13,7 +13,7 @@ error Raffle__UpkeepNotNeeded(
     uint256 raffleState
 );
 
-abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
+contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     enum RaffleState {
         OPEN, //0
         CALCULATING //1
@@ -42,16 +42,16 @@ abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     event winnerPicked(address indexed player);
 
     constructor(
-        address vrfCoordinatorv2,
-        uint256 entranceFee,
-        bytes32 gaslane,
+        address vrfCoordinatorV2, //this is the only contract we have in constructor
         uint64 subscriptionId,
-        uint32 callbackGasLimit,
-        uint256 interval
-    ) VRFConsumerBaseV2(vrfCoordinatorv2) {
+        bytes32 gasLane, // keyHash
+        uint256 interval,
+        uint256 entranceFee,
+        uint32 callbackGasLimit
+    ) VRFConsumerBaseV2(vrfCoordinatorV2) {
         i_entranceFee = entranceFee;
-        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorv2);
-        i_gaslane = gaslane;
+        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
+        i_gaslane = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
         s_raffleState = RaffleState.OPEN;
@@ -158,5 +158,9 @@ abstract contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     function getRequestConfirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
+    }
+
+    function getInterval() public view returns (uint256) {
+        return i_interval;
     }
 }

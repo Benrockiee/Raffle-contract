@@ -20,7 +20,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address;
     const transactionResponse = await vrfCoordinatorV2Mock.createSubscription();
     const transactionReceipt = await transactionResponse.wait(1);
-    subscriptionId = transactionReceipt.events[0].args.subscriptionId;
+    subscriptionId = transactionReceipt.events[0].args.subId;
     await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT);
   } else {
     vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"];
@@ -34,13 +34,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
   const args = [
     vrfCoordinatorV2Address,
-    entranceFee,
-    gasLane,
     subscriptionId,
-    callbackGasLimit,
+    gasLane,
     interval,
+    entranceFee,
+    callbackGasLimit,
   ];
-  const raffle = await deploy("raffle", {
+  const raffle = await deploy("Raffle", {
     from: deployer,
     args: args,
     log: true,

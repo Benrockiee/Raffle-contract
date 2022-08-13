@@ -26,6 +26,24 @@ module.exports = {
       accounts: [PRIVATE_KEY],
     },
   },
+  etherscan: {
+    // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+    apiKey: {
+      rinkeby: ETHERSCAN_API_KEY,
+    },
+    // In case the module can't find the rinkeby etherscan automatically
+    customChains: [
+      {
+        network: "rinkeby",
+        chainId: 4,
+        urls: {
+          apiURL: "https://api-rinkeby.etherscan.io/api",
+          browserURL: "https://rinkeby.etherscan.io",
+        },
+      },
+    ],
+  },
+
   solidity: "0.8.7",
 
   namedAccounts: {
@@ -36,5 +54,14 @@ module.exports = {
     player: {
       default: 1,
     },
+  },
+  gasReporter: {
+    enabled: false,
+    outputFile: "gas-report.txt",
+    noColors: true,
+    currency: "USD",
+  },
+  mocha: {
+    timeout: 500000,
   },
 };
