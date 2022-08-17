@@ -166,7 +166,7 @@ const {
           ).to.be.revertedWith("nonexistent request");
         });
         // This test is too big...
-        it.only("picks a winner, resets, and sends money", async () => {
+        it("picks a winner, resets, and sends money", async () => {
           const additionalEntrances = 3; // to test
           const startingIndex = 2;
           for (
